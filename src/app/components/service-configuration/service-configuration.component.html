@@ -1,0 +1,275 @@
+<section class="content-header">
+  <h1>
+    Configure Service
+    <!-- <small>Version 1.0</small> -->
+  </h1>
+  <ol class="breadcrumb pull-left">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li class="active">Configure Service</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+
+    <div class="col-md-10">
+      <!-- Horizontal Form -->
+      <div class="box box-widget">
+        <form class="form-horizontal" [formGroup]="mainForm">
+          <div class="padded-box box-body fs-15">
+            <div class="form-group">
+              <label for="service" class="col-sm-12">Service</label>
+              <div class="col">
+                <div class="col-xs-8 ">
+                  <!-- {{services}} -->
+                  <select formControlName="serviceControl" (change)="onServiceChange();" class="form-control">
+                    <option [value]="0">-- Select Service --</option>
+                    <option *ngFor="let service of services; let i = index" [value]="i+1"> {{service.name}}</option>
+                  </select>
+                </div>
+                <div class="col-2">
+                  <!-- <span>
+                            <button type="button" class="btn btn-info btn-flat">Go!</button>
+                          </span> -->
+                  <!-- <button class="btn btn-info btn-flat" type="button" title="Add service" data-toggle="modal" data-target="#serviceModal">
+                    <span class="fa fa-plus"></span>
+                  </button> -->
+                </div>
+              </div>
+
+
+            </div>
+
+            <div class="form-group">
+              <label for="category" class="col-sm-12 mt-12">Category</label>
+              <div class="col-xs-12  white-space-pre-line">
+                <span class="error">
+                  {{categoryErrorMessage}}
+                </span>
+              </div>
+              <div class="col-xs-12 white-space-pre-line">
+                <span class="success">
+                  {{categorySuccessMessage}}
+                </span>
+              </div>
+              <div class="col">
+                <div class="col-xs-8">
+                  <div class="box box-simple">
+                    <div class="box-body scrollable">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th style="width: 50px">#</th>
+                            <th>Category</th>
+                            <th style="width: 100px;text-align: center;">Action</th>
+                            <!-- <th style="width: 10px;"></th> -->
+                          </tr>
+                        </thead>
+
+                        <tbody formArrayName="categories">
+
+                          <td class="no-data " colspan="3" *ngIf="isDefaultSelected || mainForm.value.categories.length === 0">
+                            --- There are no categories present ---
+                          </td>
+
+                          <tr formGroupName="{{i}}" *ngFor="let cat of mainForm.get('categories')['controls']; let i = index">
+                            <!-- <tr id="category-box" class="row category-group-item" formGroupName="{{i}}"> -->
+
+                            <td>
+                              <input id="{{cat.value.id}}-categoryOrder"  title="Category order" class="order-height-width" size="1" formControlName="priority"
+                                placeholder="" (change)='updateOrder(cat.value.id,i,$event.target.value)' (click)='editCategoryOrder(cat.value.priority)'>
+                            </td>
+
+                            <td id="{{cat.value.cid}}-category" title="Category name">
+                              {{cat.value.name}}
+                            </td>
+
+
+
+                            <td title="View items related to category" style="color:blue;">
+                              <a href="manage/items/{{services[mainForm.controls.serviceControl.value - 1].name}}/{{cat.value.name}}/{{cat.value.id}}">
+                                <small>Items</small>
+                              </a>
+                              <!-- </td>
+
+                          <td> -->
+                              <span id="{{cat.value.id}}" data-toggle="modal" title="Edit category" data-target="#categoryModal" (click)="onSingleCatEditClick(cat.value.id, cat.value.header, cat.value.name, cat.value.priority, i)">
+                                <small>
+                                  <i class="fa fa-edit pl-6" style="color:green"></i>
+                                  
+                                </small>
+                              </span>
+                              <!-- </td> -->
+                              <!-- <td> -->
+                              <span data-toggle="modal" data-target="#confirm-delete">
+                                <small>
+                                  <i class="fa fa-remove pl-6" style="color:red" (click)="onDeleteCatClick(cat.value.id,i)">
+                                  </i>
+                                </small>
+                              </span>
+                            </td>
+
+
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="box-footer" *ngIf="!isDefaultSelected  && mainForm.value.categories.length !== 0">
+                      <button title="Save order" class="btn bg-olive btn-flat pull-right" (click)="onOrderSaveClick()">Save</button>
+
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-2">
+                  <button class="btn btn-info btn-flat" title="Add category" [disabled]="mainForm.controls.serviceControl.value === '0' || mainForm.controls.serviceControl.value === 0 "
+                    type="button" (click)="catName.value='';catHeader.value='';isCatEdit=false;" data-toggle="modal" data-target="#categoryModal">
+                    <span class="fa fa-plus"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <!-- <button type="submit" class="btn btn-flat btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-info btn-flat pull-right">Sign in</button> -->
+          </div>
+          <!-- /.box-footer -->
+        </form>
+      </div>
+      <!-- /.box -->
+
+    </div>
+  </div>
+</section>
+
+
+<div class="modal fade" id="serviceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" (click)="resetServiceStatusMsg()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title"> Service </h5>
+
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success" [hidden]="service_success_status">Service has been added!</div>
+        <div class="alert alert-danger" [hidden]="service_failure_status">Error occured while adding service.</div>
+
+        <form [formGroup]="serviceForm">
+          <div class="form-group">
+
+            <label for="service-name" class="col-form-label">Service Name</label>
+            <input class="form-control" formControlName="serviceName" #newService type="text" placeholder="Enter Service Name" [ngClass]="{ 'is-invalid': serviceFormSubmitted && sf.serviceName.errors }"
+            />
+            <div class="error">
+              {{serviceErrorMsg}}
+            </div>
+            <div *ngIf="serviceFormSubmitted && sf.serviceName.errors" class="error">
+              <div *ngIf="sf.serviceName.errors.required">Service name is required</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-flat btn-secondary" data-dismiss="modal" (click)="resetServiceStatusMsg();">Close</button>
+        <button type="button" class="btn btn-flat btn-primary" (click)="onAddServiceClick();newService.value='';">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Ends-->
+
+<!-- Category Modal Starts-->
+<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetCategoryStatusMsg();">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="exampleModalLabel"> Category </h5>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success alert-dismissible" [hidden]="cat_success_status">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          {{categoryModalSuccess}}
+        </div>
+        <div class="alert alert-danger alert-dismissible" [hidden]="cat_failure_status">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          {{categoryModalError}}
+        </div>
+
+        <form [formGroup]="categoryForm">
+          <div class="form-group">
+            <input [hidden]="true" formControlName="categoryId" />
+            <label for="category-name" class="col-form-label">Category Name</label>
+            <input class="form-control" #catName formControlName="modalCategoryName" type="text" placeholder="Enter Category Name" [ngClass]="{ 'is-invalid': categoryFormSubmitted && cf.modalCategoryName.errors }"
+            />
+            <div class="error">
+              {{catDuplicateError}}
+            </div>
+            <div *ngIf="categoryFormSubmitted && cf.modalCategoryName.errors" class="error">
+              <div *ngIf="cf.modalCategoryName.errors.required">Category name is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="category-header" class="col-form-label">Category Header</label>
+            <input class="form-control" #catHeader formControlName="modalCategoryHeader" type="text" placeholder="Enter Category Header"
+              [ngClass]="{ 'is-invalid': categoryFormSubmitted && cf.modalCategoryHeader.errors }" />
+            <div *ngIf="categoryFormSubmitted && cf.modalCategoryHeader.errors" class="error">
+              <div *ngIf="cf.modalCategoryHeader.errors.required">Category header is required</div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-flat btn-secondary" data-dismiss="modal" (click)="catName.value='';catHeader.value='';"
+          (click)="resetCategoryStatusMsg();">Close</button>
+
+        <button type="button" class="btn btn-flat btn-primary" *ngIf="!isCatEdit" (click)="onAddCategoryClick(cf.modalCategoryName.value,cf.modalCategoryHeader.value,mf.serviceControl.value);">Save</button>
+        <button type="button" class="btn btn-flat btn-warning" *ngIf="isCatEdit" (click)="onEditCategoryClick(cf.categoryId.value,cf.modalCategoryName.value, cf.modalCategoryHeader.value);">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Ends -->
+
+
+<!-- Delete Confirmation -->
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="myModalLabel"> Confirm Delete </h5>
+      </div>
+      <div class="modal-body">
+        <p>You are about to delete
+          <b>
+            <i class="title"></i>
+          </b> record, this procedure is irreversible.</p>
+        <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-flat btn-danger btn-ok" data-dismiss="modal" (click)="deleteCategory()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

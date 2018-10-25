@@ -1,0 +1,337 @@
+<section class="content-header">
+  <h1>
+    Design Menu
+    <!-- <small>Version 1.0</small> -->
+  </h1>
+  <ol class="breadcrumb pull-left">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li class="active">Design Menu</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-md-8">
+      <!-- Box Comment -->
+      <div class="box box-widget">
+        <!-- <div class="box-header with-border">
+         
+        
+        </div> -->
+        <!-- /.box-header -->
+        <div class="box-body">
+          <form class="padded-box" [formGroup]="menuForm">
+            <!-- Value: {{menuForm.value | json}} -->
+            <div class="alert alert-success alert-dismissible" [hidden]="menuSuccessMsgHide">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              Menu has been saved successfully
+            </div>
+            <div class="alert alert-danger alert-dismissible" [hidden]="menuErrorMsgHide">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              Error occured while saving menu.
+            </div>
+            <!-- Name -->
+            <div class="form-group">
+              <label for="exampleInputEmail1">Menu Name</label>
+              <div class="row">
+                <div class="col-xs-8">
+                  <input placeholder="menu name" class="form-control" formControlName="name" [ngClass]="{ 'is-invalid': submitted && form.name.errors}"
+                    required>
+                  <div *ngIf="submitted && form.name.errors" class="error-msg">
+                    <div *ngIf="form.name.errors.required">Please provide menu name.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Events -->
+            <div class="form-group">
+
+              <label for="eventLabel">Event</label>
+              <div class="row">
+                <div class="col-xs-8">
+                  <select class="form-control mb-2" formControlName="event" [ngClass]="{ 'is-invalid': submitted && form.event.errors }" required>
+
+                    <option *ngFor="let e of events; let i=index" [value]="e.name">{{e.name}}</option>
+                  </select>
+                  <div *ngIf="submitted && form.event.errors" class="error-msg">
+                    <div *ngIf="form.event.errors.required">Please select an event</div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <!-- <button class=" btn btn-info btn-flat" title="Add Event" data-toggle="modal" data-target="#eventModal">
+                    <span class="fa fa-plus"></span>
+                  </button> -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Account Type -->
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Account Type</label>
+              <div class="row">
+                <div class="col-xs-8">
+                  <select class="form-control" formControlName="accountType" [ngClass]="{ 'is-invalid': submitted && form.accountType.errors }"
+                    required>
+                    <option *ngFor="let at of acctTypes; let i=index" [value]="at">{{at}}</option>
+                  </select>
+                  <div *ngIf="submitted && form.accountType.errors" class="error-msg">
+                    <div *ngIf="form.accountType.errors.required">Please select an account type</div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <!-- <button class="btn btn-info btn-flat" title="Add Account Type" data-toggle="modal" data-target="#acctTypeModal">
+                    <span class="fa fa-plus"></span>
+                  </button> -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Services -->
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Services</label>
+              <div class="row">
+                <div class="col-xs-8">
+                  <div class="row" formArrayName="services" *ngFor="let service of serviceArray['controls']; let i=index">
+                    <div class="col-xs-1">
+                      <input type="checkbox" class="form-check-input" [formControl]="service" (ngModelChange)="addHeaderTextbox($event,services[i].name)">
+                    </div>
+                    <div class="col-xs-10 pt-4 pl-4">
+                      <label class="form-check-label text-capitalize" for="exampleCheck1">{{services[i].name}}</label>
+                    </div>
+                    <!-- <div class="col-xs-1"> -->
+                    <!-- <small>
+                        <i class="fa fa-eye" style="color:gray"></i>
+                      </small> -->
+                    <!-- <a data-toggle="popover" data-placement="right" type="button" data-html="true"  data-content="<div><a href='/link'><b>Geoff</b> - content</a></div><div><b>Hilary</b> - content</div>"><span class="glyphicon glyphicon-list" style="margin:3px 0 0 0"></span></a> -->
+                    <!-- <a tabindex="0"
+                      class="btn btn-lg btn-primary" 
+                      role="button" 
+                      data-html="true" 
+                      data-toggle="popover" 
+                      data-placement="bottom" 
+                      data-trigger="focus" 
+                      title="<b>Example popover</b> - title" 
+                      data-content="<div><a href='/link'><b>Geoff</b> - content</a></div><div><b>Hilary</b> - content</div>">RSS <i class="fa fa-rss" aria-hidden="true"></i></a>
+                    </div> -->
+                    <!-- <a data-toggle="popover" data-container="body" data-placement="right" type="button" data-html="true" data-content="<div  class='hide'> <input id='str'  type='text' />
+                    </div>" id="logout"><span class="fa fa-search" style="margin:3px 0 0 0"></span></a>
+   -->
+
+                  </div>
+                  <div *ngIf="submitted && selectedService.length === 0" class="error-msg">
+                    <div *ngIf="selectedService.length === 0">Select atleast one service</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Event Header -->
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Main Menu Header</label>
+
+              <div class="row">
+                <div class="col-xs-8">
+                  <input type="text" placeholder="main menu header" class="form-control" #eventHeader formControlName="eventHeader" [ngClass]="{ 'is-invalid': submitted && form.eventHeader.errors }"
+                    required>
+                  <div *ngIf="submitted && form.eventHeader.errors" class="error-msg">
+                    <div *ngIf="form.eventHeader.errors.required">Event header is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Services Header -->
+            <div class="form-group">
+              <div formArrayName="headerArr">
+                <div [formGroupName]="i" *ngFor="let header of headerArray.controls; let i=index">
+
+                  <div class="form-group">
+                    <label class="text-capitalize" for="exampleInputEmail1"> {{headerArray.value[i].headerLabel}} Header</label>
+
+                    <div class="row">
+                      <div class="col-xs-8">
+                        <input type="text" class="form-control" formControlName="headerText" [ngClass]="{ 'is-invalid': submitted && headerArray.value[i].headerText === '' }"
+                          required>
+                        <div *ngIf="submitted && headerArray.value[i].headerText === ''" class="error-msg">
+                          <div *ngIf="headerArray.value[i].headerText === ''">{{headerArray.value[i].headerLabel}} header is required</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Submit button -->
+            <div class="form-group">
+              <div class="row">
+                <br>
+                <div class="col-xs-8">
+                  <button class="btn btn-info btn-flat float-right" (click)="save()">
+                    Preview
+                  </button>
+                </div>
+              </div>
+            </div>
+
+
+
+
+          </form>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer box-comments">
+          <div class="box-comment">
+          </div>
+          <!-- /.box-comment -->
+        </div>
+        <!-- /.box-footer -->
+
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+
+
+
+    <!-- <div class="col-md-4">
+      <div class="box box-widget">
+        <div class="box-header with-border">
+          <div class="user-block">
+            <span class="username">
+              <a href="#">Preview Menu</a>
+            </span>
+            <span class="description">Showing your designed menu</span>
+          </div>
+          <div class="box-tools">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+              <i class="fa fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="error-msg">
+            {{orderErrorMessage}}
+          </div>
+          <div class="col" [formGroup]='orderForm'>
+            <div>
+                {{eventHeader.value}}
+            </div>
+            <div formArrayName='items' *ngFor="let item of orderForm.get('items').controls; let i= index;">
+              <div formGroupName='{{i}}'>
+                <div class="row">
+                  <div class="col-xs-2">
+                    <input formControlName="order" size="1" class="sort-box" (ngModelChange)='sort(i)'>
+                  </div>
+                  <div class="col-xs-10">
+                    <span class="text-capitalize"> {{item.value.name}} </span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box-footer box-comments" style="">
+          <div class="box-comment">
+
+          </div>
+
+        </div>
+
+      </div>
+    </div> -->
+
+
+
+    <!-- /.col -->
+  </div>
+</section>
+
+<!-- Add Event Popup -->
+
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="resetMsgStatus('event')" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="exampleModalLabel">New Event</h5>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success alert-dismissible" [hidden]="event_success_status">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          Event has been added successfully!
+        </div>
+        <div class="alert alert-failure alert-dismissible" [hidden]="event_failure_status">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          Error occured while adding event
+        </div>
+        <form [formGroup]="eventForm">
+          <div class="form-group">
+            <label for="service-name" class="col-form-label">Event Name</label>
+            <input class="form-control" #newEvent formControlName="newEvent" type="text" placeholder="Event" id="event" [ngClass]="{ 'is-invalid':addEventBtn && eForm.newEvent.errors }"
+              required/>
+
+            <div *ngIf="addEventBtn && eForm.newEvent.errors" class="error-msg">
+              <div *ngIf="eForm.newEvent.errors.required">New event is required</div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetMsgStatus('event')">Close</button>
+        <button type="button" class="btn btn-primary" (click)="addEvent();newEvent.value = '';">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add Account Type Popup -->
+
+<div class="modal fade" id="acctTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="exampleModalLabel">New AccountType</h5>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="acctTypeForm">
+          <div class="form-group">
+            <label for="service-name" class="col-form-label">Account Type:</label>
+            <input class="form-control" formControlName="newAccountType" type="text" #newAccountType placeholder="Account type" id="event"
+              [ngClass]="{ 'is-invalid': addAcctTypeBtn && aForm.newAccountType.errors}" required/>
+
+            <div *ngIf="addAcctTypeBtn && aForm.newAccountType.errors" class="error-msg">
+              <div *ngIf="aForm.newAccountType.errors.required">New account type is required</div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="addAcctType(newAccountType.value); newAccountType.value = '';">Add</button>
+      </div>
+    </div>
+  </div>
+</div>

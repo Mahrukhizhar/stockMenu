@@ -1,0 +1,152 @@
+<section class="content-header">
+  <h1>
+    Design Menu
+    <!-- <small>Version 1.0</small> -->
+  </h1>
+  <ol class="breadcrumb pull-left">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li class="active">Menu Service</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <form class="form-horizontal" [formGroup]="menuServiceForm">
+        <div class="box box-widget">
+          <div *ngIf="orderErrorMessage" class="box-header with-border">
+            <div class="col-12 white-space-pre-line">
+              <span class="error">
+                {{orderErrorMessage}}
+              </span>
+            </div>
+            <div class="col-12 white-space-pre-line">
+              <span class="success">
+                {{orderSuccessMessage}}
+              </span>
+            </div>
+            <!-- <div class="user-block">
+                <b>
+                  Main Menu header:
+                </b>
+                <span class="description">
+                </span>
+              </div> -->
+          </div>
+          <div class="box-body no-padding" formArrayName="services">
+            <ul class="nav nav-stacked">
+                <li class="li-box">{{menu.eventHeader}}</li>
+              <li class="li-box hover" title="click to view related categories" formGroupName= {{i}} (click)="onServiceClick(service.value.id, service.value.name)" *ngFor="let service of menuServiceForm.get('services')['controls']; let i = index">
+                <span >
+                  <input formControlName="order" (change)="sortArray()" class="order-height-width" title="Service order" size="1" value={{service.value.order}}>
+                </span>
+                <span title="Service name" >
+                  {{service.value.name}}
+                </span>
+                <i class="fa fa-plus plus-icon"> </i>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="selectedServiceName">
+    <div class="col-md-6">
+      <div class="box box-widget">
+        <div class="box-header with-border">
+          <div class="user-block">
+            <b>
+              {{selectedServiceName}} menu:
+            </b>
+            <span class="description">
+            </span>
+          </div>
+          <!-- /.user-block -->
+          <div class="box-tools">
+            <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse">
+              <i class="fa fa-minus"></i>
+            </button> -->
+            <!-- <button type="button" class="btn btn-box-tool" data-widget="remove">
+            <i class="fa fa-times"></i>
+          </button> -->
+          </div>
+          <!-- /.box-tools -->
+        </div>
+        <div class="box-body no-padding">
+          <ul class="nav nav-stacked">
+            <li class="li-box no-hover" >
+              {{serviceHeader}}
+            </li>
+            <li class="li-box" *ngIf="categories.length === 0">
+             
+                --- No category to display ---
+            </li>
+            <li class="li-box hover" title="click to view related items" (click)="onCatClick(cat.id,cat.name)" *ngFor="let cat of categories; let i = index;">
+              <span> {{cat.priority}}. </span>
+              <span title="Category name" >{{cat.name}}</span>
+              <i class="fa fa-plus plus-icon"> </i>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="selectedCatName">
+    <div class="col-md-6">
+      <div class="box box-widget">
+        <div class="box-header with-border">
+          <div class="user-block">
+            <b>{{selectedCatName}} menu:</b>
+            <!-- <span class="description" style="color:black;">
+              Please select from following:
+            </span> -->
+          </div>
+          <!-- /.user-block -->
+          <div class="box-tools">
+            <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse">
+              <i class="fa fa-minus"></i>
+            </button> -->
+            <!-- <button type="button" class="btn btn-box-tool" data-widget="remove">
+              <i class="fa fa-times"></i>
+            </button> -->
+          </div>
+          <!-- /.box-tools -->
+        </div>
+        <div class="box-body no-padding">
+          <ul class="nav nav-stacked">
+              <li class="li-box">  {{categoryHeader}} </li>
+            <li class="li-box" *ngIf="items.length === 0">
+                --- No items to display ---
+            </li>
+
+            <li class="li-box" *ngFor="let item of items">
+             {{item.priority}}. {{item.name}} 
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-md-6">
+          <button class="btn btn-info btn-flat" style = "float:left;margin-left:0;" (click)="goBack($event)">
+              Back
+            </button>
+            <button class="btn btn-success btn-flat" style = "float:right;" (click)="onSaveClick()">
+              Save
+            </button>
+      </div>
+  </div>
+  
+</section>
+
+  

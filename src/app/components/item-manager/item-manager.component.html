@@ -1,0 +1,232 @@
+<section class="content-header">
+  <h1>
+    Configure Item
+    <!-- <small>Version 1.0</small> -->
+  </h1>
+  <ol class="breadcrumb pull-left">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li class="active">Configure Item</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content" style="padding-top:0px!important;">
+  <!-- <div class="card" style="margin-top: 22px;padding:12px;"> -->
+  <!-- <div class="form-header" style="background-color:#2bbbad !important">
+            <h3>Configure Service</h3>
+          </div> -->
+
+  <div class="row">
+    <div class="col-md-10 pt-30 ">
+      <!-- Horizontal Form -->
+      <div class="box box-widget">
+        <!-- form start -->
+        <form class="form-horizontal" [formGroup]="mainForm">
+          <div class="box-body padded-box fs-15">
+            <div class="form-group">
+              <label for="service" class="col-sm-12 fs-14-5">Service:
+                <span class="normal">{{service}}</span>
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="service" class="col-sm-12 fs-14-5">Category:
+                <span class="normal">{{category}}</span>
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label for="category" class=" col-sm-12">Items: </label>
+              <div class="col-xs-12 white-space-pre-line">
+                <span class="error">
+                  {{itemErrorMessage}}
+                </span>
+              </div>
+              <div class="white-space-pre-line">
+                <span class="success">
+                  {{itemSuccessMessage}}
+                </span>
+              </div>
+              <div class="col">
+                <div class="col-xs-8">
+                  <div class="box box-simple">
+                    <div class="box-body scrollable">
+                      <table class="table table-hover">
+
+                        <thead>
+                          <tr>
+                            <th style="width: 20px">#</th>
+                            <th>Item</th>
+                            <th style="width: 100px">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody formArrayName="items">
+                          <td class="no-data " colspan="3" *ngIf="mainForm.value.items.length === 0">
+                            --- There are no items present ---
+                          </td>
+
+                          <tr formGroupName="{{i}}" *ngFor="let item of mainForm.get('items')['controls']; let i = index">
+                            <!-- <tr id="category-box" class="row category-group-item" formGroupName="{{i}}"> -->
+                            <!-- {{cat.value.categoryName}} -->
+                            <td>
+                              <input id="{{item.value.id}}-itemOrder" title="Item order" class="order-height-width" size="1" formControlName="priority"
+                                placeholder="" (change)='updateOrder(item.value.id,i,$event.target.value)' (click)='editItemOrder(item.value.priority)'>
+                            </td>
+
+                            <td id="{{item.value.id}}-item" title="Item name">
+                              {{item.value.name}}
+                            </td>
+
+
+
+                            <td  style="color:blue;">
+
+                              <!-- </td>
+            
+                                      <td> -->
+                              <span title="Edit item" id="{{item.value.id}}" data-toggle="modal" data-target="#itemModal" (click)="onSingleItemEditClick(item.value.id, item.value.name, item.value.wsCode, item.value.confirmText1, item.value.confirmText2, i)">
+                                <small>
+                                  <i class="fa fa-edit" style="color:green"></i>
+                                </small>
+                              </span>
+
+                              <span title="Delete item" data-toggle="modal" data-target="#confirm-delete">
+                                <small>
+                                  <i class="fa fa-remove pl-6" style="color:red" (click)="onDeleteItemClick(item.value.id,i)">
+                                  </i>
+                                </small>
+                              </span>
+
+                            </td>
+
+
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="box-footer" *ngIf="mainForm.value.items.length !== 0">
+                      <button title="Save order" class="btn bg-olive btn-flat pull-right" (click)="onOrderSaveClick()">Save</button>
+
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-2">
+                  <button class="btn btn-info btn-flat" title="Add item" type="button" (click)="itemName.value=''; wsCode.value = ''; conf_menu_text_1.value=''; conf_menu_text_2.value='';isItemEdit=false;"
+                    data-toggle="modal" data-target="#itemModal">
+                    <span class="fa fa-plus"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <!-- <button type="submit" class="btn btn-flat btn-default">Cancel</button>
+                                <button type="submit" class="btn btn-info btn-flat pull-right">Sign in</button> -->
+          </div>
+          <!-- /.box-footer -->
+        </form>
+      </div>
+      <!-- /.box -->
+
+    </div>
+
+    <!-- VALUES : {{mainForm.value | json}} -->
+    <!-- Categories Component Ends -->
+  </div>
+
+</section>
+<!-- Item Modal Starts-->
+<div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="itemName.value=''; wsCode.value = '';conf_menu_text_1.value=''; conf_menu_text_2.value='';resetItemStatusMsg();">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="exampleModalLabel">Item </h5>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success alert-dismissible" [hidden]="item_success_status">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          {{itemModalSuccess}}
+        </div>
+        <div class="alert alert-danger alert-dismissible" [hidden]="item_failure_status">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          {{itemModalError}}
+        </div>
+        <form [formGroup]="itemForm">
+          <div class="form-group">
+            <input [hidden]="true" formControlName="itemId" />
+            <label for="category-name" class="col-form-label">Item Name</label>
+            <input class="form-control" #itemName formControlName="itemName" type="text" placeholder="Enter Item Name" [ngClass]="{ 'is-invalid': itemFormSubmitted && itemform.itemName.errors }"
+            />
+            <div class="error">
+              {{itemDuplicateError}}
+            </div>
+            <div *ngIf="itemFormSubmitted && itemform.itemName.errors" class="error">
+              <div *ngIf="itemform.itemName.errors.required">Item name is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="category-name" class="col-form-label">Webservice Code</label>
+            <input class="form-control" #wsCode formControlName="wsCode" type="text" placeholder="Enter Webservice Code" [ngClass]="{ 'is-invalid': itemFormSubmitted && itemform.itemName.errors }"
+            />
+            <div *ngIf="itemFormSubmitted && itemform.wsCode.errors" class="error">
+              <div *ngIf="itemform.wsCode.errors.required">Webservice code is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="category-name" class="col-form-label">Confirmation Menu Text*</label>
+            <textarea class="form-control" rows="5" #conf_menu_text_1 formControlName="conf_menu_text_1" [ngClass]="{ 'is-invalid': itemFormSubmitted && itemform.conf_menu_text_1.errors }"></textarea>
+            <div *ngIf="itemFormSubmitted && itemform.conf_menu_text_1.errors" class="error">
+              <div *ngIf="itemform.conf_menu_text_1.errors.required">Confirmation menu is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="category-name" class="col-form-label">Confirmation Menu Text (Optional)</label>
+            <textarea class="form-control" rows="5" #conf_menu_text_2 formControlName="conf_menu_text_2"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-flat" data-dismiss="modal" (click)="itemName.value=''; wsCode.value = ''; conf_menu_text_1.value=''; conf_menu_text_2.value='';resetItemStatusMsg();">Close</button>
+
+        <button type="button" class="btn btn-primary btn-flat" *ngIf="!isItemEdit" (click)="onAddItemClick(itemform.itemName.value,itemform.wsCode.value,itemform.conf_menu_text_1.value,itemform.conf_menu_text_2.value);">Save</button>
+        <button type="button" class="btn btn-warning btn-flat" *ngIf="isItemEdit" (click)="onEditItemClick(itemform.itemId.value,itemform.itemName.value, itemform.wsCode.value,itemform.conf_menu_text_1.value,itemform.conf_menu_text_2.value);">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Ends -->
+<!-- Delete Confirmation -->
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="myModalLabel"> Confirm Delete </h5>
+      </div>
+      <div class="modal-body">
+        <p>You are about to delete
+          <b>
+            <i class="title"></i>
+          </b> record, this procedure is irreversible.</p>
+        <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger btn-flat" data-dismiss="modal" (click)="deleteItem()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

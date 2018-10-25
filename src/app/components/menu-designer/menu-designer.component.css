@@ -1,0 +1,145 @@
+.card-header {
+    /* width:100%; */
+    font-weight: bold;
+    font-size: 23px;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding: 9px;
+    /* background-color: #fff; */
+}
+
+
+/* .card-body {
+    padding-top: 0rem;
+} */
+
+label {
+    font-size: 14px;
+    font-weight: 800;
+    margin: 0;
+}
+
+.btn-plus {
+    padding: 0;
+}
+
+.form-check-label {
+    font-weight: unset;
+}
+
+.submitted .ng-invalid{
+    border: 1px solid red;
+}
+
+.error-msg{
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 82%;
+    color: #dc3545;
+}
+
+p{
+    margin: 0%;
+    padding: 0%;
+    font-size: 13px;
+}
+
+span{
+    margin: 0%;
+    padding: 0%;
+    font-size: 13px;
+}
+
+.menu-text-label {
+   
+    font-weight: bold;
+    font-size: 14px;
+    /* margin-left: 9%; */
+}
+
+.card {
+    margin: 0 auto; 
+    float: none; 
+    margin-top: 30px;
+    /* padding-bottom: 10px;   */
+
+}
+
+.page-card {
+    width: 80%;
+    padding-top: 0px;
+    
+}
+
+
+.preview-menu-text{
+    width:70%;
+    /* margin-t op: 20%; */
+    /* margin-left: 20%; */
+    
+}
+
+.right-border {
+    border-right: 1px solid #ddd;
+}
+
+.nav-pills .nav-link {
+    border-radius: 0;
+}
+.sort-box {
+    /* width: 15%; */
+    border: none;
+    font-size: 13px;
+}
+
+.sort-box:hover  {
+    border: 1px solid #999;
+    border-radius: 5px;
+}
+.nav-pills .nav-link.active {
+    background-color: #08c
+}
+.navbar {   
+    padding: 0;
+    
+}
+.nav-border {
+    border-right: 1px solid rgba(0,0,0,.125);
+}
+a {
+    font-size: 14px;
+}
+a .icon-color {
+    color: gray;
+}
+
+.icon-left {
+    margin-left: 2rem;
+    margin-top: 0.25rem;
+}
+
+.bg-color {
+    background-color: #f5f5f5;
+    padding-left: 0px;
+}
+
+.padded-box{
+padding-top:3%;
+padding-left:3%;
+}
+
+.pt-4{
+    padding-top: 4px;
+}
+
+.pl-4{
+    padding-left: 4px !important;
+}
+
+.pr-0{
+    padding-right: 0;
+} 
+.float-right{
+    float: right;
+}
+
