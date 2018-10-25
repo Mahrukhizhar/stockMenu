@@ -42,7 +42,7 @@
           <div class="box-body no-padding" formArrayName="services">
             <ul class="nav nav-stacked">
                 <li class="li-box">{{menu.eventHeader}}</li>
-              <li class="li-box hover" title="click to view related categories" formGroupName= {{i}} (click)="onServiceClick(service.value.id, service.value.name)" *ngFor="let service of menuServiceForm.get('services')['controls']; let i = index">
+              <li class="li-box hover" title="click to view related categories" formGroupName= {{i}} (click)="onServiceClick(service.value.id, service.value.name)" *ngFor="let service of menuServiceForm.get('services').controls; let i = index">
                 <span >
                   <input formControlName="order" (change)="sortArray()" class="order-height-width" title="Service order" size="1" value={{service.value.order}}>
                 </span>

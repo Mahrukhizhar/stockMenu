@@ -84,7 +84,6 @@ export class MenuDesignerChildComponent implements OnInit {
 
   onServiceClick(serviceId, serviceName) {
     this.items = [];
-    this.categories = [];
     this.selectedCatName = '';
     this.selectedServiceName = serviceName;
 
@@ -92,9 +91,7 @@ export class MenuDesignerChildComponent implements OnInit {
 
     this.easywayService.getCatByServiceId(serviceId).subscribe(
       data => {
-        if (data) {
-          this.categories = data;
-        }
+        this.categories = data;
       },
       error => {
         console.log(error);
@@ -110,7 +107,6 @@ export class MenuDesignerChildComponent implements OnInit {
 
     return filterHeaderObj[0].headerText;
   }
-
   onCatClick(catId, catName) {
     this.categoryHeader = '';
     this.selectedCatName = catName;
@@ -130,10 +126,8 @@ export class MenuDesignerChildComponent implements OnInit {
 
     this.easywayService.getItems(catId).subscribe(
       data => {
-        if (data) {
-          console.log(data);
-          this.items = data;
-        }
+        console.log(data);
+        this.items = data;
       },
       error => {
         console.log(error);

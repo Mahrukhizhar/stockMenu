@@ -8,8 +8,7 @@ import { Observable } from 'rxjs';
 export class ServiceResolver implements Resolve<any> {
   constructor(private easywayService: StockMenuService) {}
 
-  // resolve(): Observable<any> {
-    resolve(): any {
+  resolve(): Observable<any> {
     console.log('here');
     return this.easywayService.getServices();
   }

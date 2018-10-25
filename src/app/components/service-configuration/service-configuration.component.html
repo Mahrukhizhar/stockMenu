@@ -76,7 +76,7 @@
                             --- There are no categories present ---
                           </td>
 
-                          <tr formGroupName="{{i}}" *ngFor="let cat of mainForm.get('categories')['controls']; let i = index">
+                          <tr formGroupName="{{i}}" *ngFor="let cat of mainForm.get('categories').controls; let i = index">
                             <!-- <tr id="category-box" class="row category-group-item" formGroupName="{{i}}"> -->
 
                             <td>
@@ -91,7 +91,7 @@
 
 
                             <td title="View items related to category" style="color:blue;">
-                              <a href="manage/items/{{services[mainForm.controls.serviceControl.value - 1].name}}/{{cat.value.name}}/{{cat.value.id}}">
+                              <a href="/manage/items/{{services[mainForm.controls.serviceControl.value - 1].name}}/{{cat.value.name}}/{{cat.value.id}}">
                                 <small>Items</small>
                               </a>
                               <!-- </td>

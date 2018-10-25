@@ -28,8 +28,8 @@ export class ServiceConfigurationComponent implements OnInit {
   categoryForm: FormGroup;
   categories: FormArray;
 
-  services: Service[];
-  category: Category[];
+  private services: Service[];
+  private category: Category[];
 
   // services = [];
   // updateCategoryOrderObj = [];
@@ -299,12 +299,9 @@ export class ServiceConfigurationComponent implements OnInit {
     } else {
 
       const category = new Category(id, name, header, null, null, []);
-      this.easywayService.updateCategory(category, this.mainForm.get('serviceControl').value).subscribe(
+      this.easywayService.updateCategory(category).subscribe(
         res => {
           if (res) {
-            console.log('here');
-            console.log(res);
-            console.log(this.editCategoryIndex);
             this.cat_success_status = false;
             this.categoryModalSuccess = 'Category has been edited successfully!';
             this.categories.at(this.editCategoryIndex).patchValue(res);
@@ -419,7 +416,7 @@ export class ServiceConfigurationComponent implements OnInit {
 
   deleteCategory() {
     console.log('in delete function');
-    this.easywayService.delCategory(this.catToBeDeleted.cid, this.mainForm.get('serviceControl').value).subscribe(
+    this.easywayService.delCategory(this.catToBeDeleted.cid).subscribe(
 
       data => {
         if (data) {

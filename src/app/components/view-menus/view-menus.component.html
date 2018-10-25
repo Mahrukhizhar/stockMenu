@@ -24,25 +24,19 @@
     <!-- /.box-header -->
     <div class="box-body">
       <table class="table table-bordered">
-        <thead>
-          <tr>
+        <tbody><tr>
           <th style="width: 10px">#</th>
           <th>Name</th>
           <th>Event</th>
           <th>Account Type</th>
-          <th>Services</th>
+          <th>Event Header</th>
         </tr>
-        </thead>
-        <tbody>
-            <td class="no-data " colspan="5" *ngIf="menus.length === 0">
-                --- There are no menus present ---
-              </td>
         <tr *ngFor="let menu of menus; let i = index" >
           <td>{{i+1}}</td>
           <td>{{menu.name}}</td>
           <td>{{menu.event}}</td>
           <td>{{menu.accountType}}</td>
-          <td>{{menuServices[i]}}</td>
+          <td>{{menu.eventHeader}}</td>
         </tr>
       </tbody></table>
     </div>

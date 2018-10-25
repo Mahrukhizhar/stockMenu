@@ -24,6 +24,7 @@
         </div> -->
         <!-- /.box-header -->
         <div class="box-body">
+
           <form class="padded-box" [formGroup]="menuForm">
             <!-- Value: {{menuForm.value | json}} -->
             <div class="alert alert-success alert-dismissible" [hidden]="menuSuccessMsgHide">
@@ -99,7 +100,7 @@
               <label for="exampleInputEmail1">Services</label>
               <div class="row">
                 <div class="col-xs-8">
-                  <div class="row" formArrayName="services" *ngFor="let service of serviceArray['controls']; let i=index">
+                  <div class="row" formArrayName="services" *ngFor="let service of serviceArray.controls; let i=index">
                     <div class="col-xs-1">
                       <input type="checkbox" class="form-check-input" [formControl]="service" (ngModelChange)="addHeaderTextbox($event,services[i].name)">
                     </div>

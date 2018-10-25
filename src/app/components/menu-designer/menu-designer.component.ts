@@ -12,6 +12,9 @@ import { LocationStrategy } from '@angular/common';
 
 @Component({
   selector: 'app-menu-designer',
+  template: `
+  <menu-designer-child [childMessage]="parentMessage"></menu-designer-child>
+`,
   templateUrl: './menu-designer.component.html',
   styleUrls: ['./menu-designer.component.css'],
 })
@@ -224,7 +227,7 @@ export class MenuDesignerComponent implements OnInit {
     this.dataService.setMenu(menuFormVal);
 
     console.log(this.dataService.getMenu());
-    this.router.navigateByUrl('next');
+    this.router.navigateByUrl('/next');
 
     // this.easywayService.saveMenu(menu).subscribe(
     //   data => {
@@ -326,21 +329,20 @@ export class MenuDesignerComponent implements OnInit {
 
   addHeaderTextbox($event, serviceName) {
 
-    console.log($event + ' ' + serviceName);
     this.selectedServices();
 
     if ($event) {
-      // this.addItem(serviceName);
+      this.addItem(serviceName);
       this.addTextBox(serviceName);
 
     } else {
-      // this.deleteItem(serviceName);
+      this.deleteItem(serviceName);
       this.deleteTextBox(serviceName);
-      // const orderFormArray = <FormArray>this.orderForm.controls.items;
-      // const itemCount = orderFormArray.length;
-      // for (let i = 0; i < itemCount; i++) {
-      //   orderFormArray.controls[i].patchValue({ 'order': i + 1 });
-      // }
+      const orderFormArray = <FormArray>this.orderForm.controls.items;
+      const itemCount = orderFormArray.length;
+      for (let i = 0; i < itemCount; i++) {
+        orderFormArray.controls[i].patchValue({ 'order': i + 1 });
+      }
 
     }
   }
@@ -356,7 +358,6 @@ export class MenuDesignerComponent implements OnInit {
       serviceHeaderArr.forEach(service => {
         this.recreateServiceHeaders(service.headerLabel, service.headerText);
       });
-      console.log('get menu', this.dataService.getMenu());
       this.menuForm.setValue(this.dataService.getMenu());
       this.selectedServices();
     }

@@ -63,11 +63,11 @@
                           </tr>
                         </thead>
                         <tbody formArrayName="items">
-                          <td class="no-data " colspan="3" *ngIf="mainForm.value.items.length === 0">
+                          <td class="no-data " colspan="3" *ngIf="isDefaultSelected || mainForm.value.items.length === 0">
                             --- There are no items present ---
                           </td>
 
-                          <tr formGroupName="{{i}}" *ngFor="let item of mainForm.get('items')['controls']; let i = index">
+                          <tr formGroupName="{{i}}" *ngFor="let item of mainForm.get('items').controls; let i = index">
                             <!-- <tr id="category-box" class="row category-group-item" formGroupName="{{i}}"> -->
                             <!-- {{cat.value.categoryName}} -->
                             <td>

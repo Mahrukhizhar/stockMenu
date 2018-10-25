@@ -42,7 +42,7 @@ export class ItemManagerComponent implements OnInit {
   itemModalSuccess = '';
   itemModalError = '';
 
-  // itemNameArr = [];
+  itemNameArr = [];
   itemToBeDeleted = {
     'itemId': '',
     'index': ''
@@ -95,7 +95,7 @@ export class ItemManagerComponent implements OnInit {
         console.log(data);
 
         for (const item of data) {
-          // this.itemNameArr.push(item['name']);
+          this.itemNameArr.push(item['name']);
           this.addItem(item);
         }
 
@@ -140,7 +140,7 @@ export class ItemManagerComponent implements OnInit {
           if (data) {
             item.id = data.id;
             this.addItem(data);
-            // this.itemNameArr.push(itemName.trim());
+            this.itemNameArr.push(itemName.trim());
             this.itemNameRef.nativeElement.value = '';
             this.wsCodeRef.nativeElement.value = '';
             this.conf_text_1_ref.nativeElement.value = '';
@@ -158,17 +158,10 @@ export class ItemManagerComponent implements OnInit {
   }
 
   checkDuplicateItem(itemName) {
-    console.log('check duplicate name');
-    const itemFormArray = this.mainForm.get('items') as FormArray;
-    const itemNameArr = [];
-    itemFormArray.controls.forEach((i) => {
-      itemNameArr.push(i['controls']['name']['value']);
-    });
 
-    if (itemNameArr.indexOf(itemName) >= 0) {
+    if (this.itemNameArr.indexOf(itemName) >= 0) {
       return true;
     }
-
     return false;
   }
 
@@ -195,7 +188,7 @@ export class ItemManagerComponent implements OnInit {
 
       const item = new Item(itemId, itemName, null, null, conf_menu_text_1, conf_menu_text_2, wsCode);
 
-      this.stockMenuService.updateItem(item, itemId, this.cid).subscribe(res => {
+      this.stockMenuService.updateItem(item, itemId).subscribe(res => {
         if (res) {
           this.item_success_status = false;
           this.itemModalSuccess = 'Item has been edited successfully!';
@@ -303,14 +296,14 @@ export class ItemManagerComponent implements OnInit {
   }
 
   deleteItem() {
-    this.stockMenuService.delItem(this.itemToBeDeleted.itemId, this.cid).subscribe(
+    this.stockMenuService.delItem(this.itemToBeDeleted.itemId).subscribe(
       data => {
         if (data) {
           console.log('deleted successfully');
-          // this.itemNameArr.indexOf(this.itemToBeDeleted.name);
           this.items.removeAt(Number(this.itemToBeDeleted.index));
         }
       });
+
   }
 
   resetItemStatusMsg() {

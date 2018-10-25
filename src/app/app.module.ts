@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
-import { StorageServiceModule } from 'angular-webstorage-service';
 
 import { AppComponent } from './app.component';
 
@@ -48,7 +47,6 @@ import { DataService } from './services/data.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StorageServiceModule,
     RouterModule.forRoot([
       {
         path: 'design/menu',
@@ -84,14 +82,11 @@ import { DataService } from './services/data.service';
         // resolve: {
         //   items: ItemResolver
         // }
-      },
-      {
-        path : '',
-        component: ServiceConfigurationComponent,
-        resolve: {
-          services: ServiceResolver
-        }
       }
+      // {
+      //   path : '',
+      //   component: HomeComponent
+      // }
     ])
   ],
   providers: [
